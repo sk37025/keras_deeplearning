@@ -2,6 +2,10 @@ from keras import layers
 from keras import models 
 from keras.datasets import mnist
 from keras.utils import to_categorical
+import wandb 
+from wandb.keras import WandbCallback
+
+wandb.init(project="ConvNet Simple project", entity= "sunkeunjo")
 
 def model_():
     # 컨브넷 모델링
@@ -19,14 +23,6 @@ def model_():
     
     return model
 
-# MNIST 이미지에 컨브넷 훈련하기 
-def train_ConvNet(model,train_image, train_label):
-
-    model.compile(optimizer = "rmsprop", loss = "categorical_crossentropy",metrics =['accuracy'])
-    model.fit(train_image,train_label, epochs = 5, batch_size= 64)
-    
-    return model 
-
 if __name__ == "__main__":
     # 모델 정의 
     model = model_()
@@ -41,9 +37,14 @@ if __name__ == "__main__":
     test_images = test_images.astype("float32")/255
     test_labels = to_categorical(test_labels)
     # 모델 학습 
-    ConvNet = train_ConvNet(model,train_images, train_labels)
-    test_loss,test_acc = ConvNet.evaluate(test_images,test_labels)
-    print("Epoch 5) test loss : {:.4f}\ntest accuracy : {:.4f}".format(test_loss,test_acc))
+    wandb.config = {
+    "learning_rate": 0.001,
+    "epochs": 100,
+    "batch_size": 128
+    }
+    model.compile(optimizer = "rmsprop", loss = "categorical_crossentropy",metrics =['accuracy'],)
+    model.fit(train_images,train_labels, validation_data= (test_images,test_labels),epochs = 100, batch_size = 128 ,callbacks =[WandbCallback()])
 
+    
 
 

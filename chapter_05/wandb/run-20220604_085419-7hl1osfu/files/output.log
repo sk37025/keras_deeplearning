@@ -1,0 +1,31 @@
+Model: "sequential"
+_________________________________________________________________
+ Layer (type)                Output Shape              Param #
+=================================================================
+ conv2d (Conv2D)             (None, 26, 26, 32)        320
+ max_pooling2d (MaxPooling2D  (None, 13, 13, 32)       0
+ )
+ conv2d_1 (Conv2D)           (None, 11, 11, 64)        18496
+ max_pooling2d_1 (MaxPooling  (None, 5, 5, 64)         0
+ 2D)
+ conv2d_2 (Conv2D)           (None, 3, 3, 64)          36928
+ flatten (Flatten)           (None, 576)               0
+ dense (Dense)               (None, 64)                36928
+ dense_1 (Dense)             (None, 10)                650
+=================================================================
+Total params: 93,322
+Trainable params: 93,322
+Non-trainable params: 0
+_________________________________________________________________
+None
+wandb: WARNING The save_model argument by default saves the model in the HDF5 format that cannot save custom objects like subclassed models and custom layers. This behavior will be deprecated in a future release in favor of the SavedModel format. Meanwhile, the HDF5 model is saved as W&B files and the SavedModel as W&B Artifacts.
+Traceback (most recent call last):
+  File "simple_ConvNet.py", line 41, in <module>
+    model.fit(train_images,train_labels, validation_data= (test_images,test_labels),epochs = 100, batch_size = 128, learning_rate = 0.001 ,callbacks =[WandbCallback()])
+  File "C:\Users\sk370\.virtualenvs\keras_deeplearning-d5t_XsnT\lib\site-packages\wandb\integration\keras\keras.py", line 163, in new_v2
+    return old_v2(*args, **kwargs)
+  File "C:\Users\sk370\.virtualenvs\keras_deeplearning-d5t_XsnT\lib\site-packages\keras\utils\traceback_utils.py", line 67, in error_handler
+    raise e.with_traceback(filtered_tb) from None
+  File "C:\Users\sk370\.virtualenvs\keras_deeplearning-d5t_XsnT\lib\site-packages\keras\utils\traceback_utils.py", line 64, in error_handler
+    return fn(*args, **kwargs)
+TypeError: fit() got an unexpected keyword argument 'learning_rate'
